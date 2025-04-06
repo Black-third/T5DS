@@ -37,6 +37,7 @@ class Polynomial {
 private:
     int order;
     T* coefficients;
+    T value;
 
 public:
     Polynomial(int order) : order(order) {
@@ -49,6 +50,7 @@ public:
 
     void inputPolynomial() {
         cout << "Enter polynomial coefficients :" << endl;
+        cin >> value;
         for (int i = 0; i <= order; i++) {
             cin >> coefficients[i];
         }
@@ -71,12 +73,13 @@ public:
             if (i > 1) cout << "^" << i;
         }
         if (first) cout << "0"; // If all coefficients are zero
-        cout << " = 0" << endl;
+        cout << " = " << value << endl;
     }
 
     Polynomial operator+(const Polynomial& other) {
         int maxOrder = max(order, other.order);
         Polynomial result(maxOrder);
+        result.value = value + other.value;
         for (int i = 0; i <= maxOrder; i++) {
             T a = (i <= order) ? coefficients[i] : 0;
             T b = (i <= other.order) ? other.coefficients[i] : 0;
@@ -88,6 +91,7 @@ public:
     Polynomial operator-(const Polynomial& other) {
         int maxOrder = max(order, other.order);
         Polynomial result(maxOrder);
+        result.value = value - other.value;
         for (int i = 0; i <= maxOrder; i++) {
             T a = (i <= order) ? coefficients[i] : 0;
             T b = (i <= other.order) ? other.coefficients[i] : 0;
@@ -115,7 +119,7 @@ int main() {
     cout << "Second polynomial: ";
     poly2.displayPolynomial();
     Polynomial<int> sum = poly1 + poly2;
-    Polynomial<int> diff = poly1 - poly2;
+    Polynomial<int> diff = poly2 - poly1;
     cout << "Sum of polynomials: ";
     sum.displayPolynomial();
     cout << "Difference of polynomials: ";
